@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สื่อโต้ตอบ การแยกตัวประกอบพหุนามดีกรีมากกว่า 2 | ม.4</title>
+<style>
+:root{--green:#176b55;--green2:#249875;--pale:#eaf6f0;--ink:#18372f;--muted:#5e7770;--line:#d7e8e0;--gold:#e6a332}
+*{box-sizing:border-box}body{margin:0;background:#f3f8f5;color:var(--ink);font-family:Tahoma,"Noto Sans Thai",sans-serif;line-height:1.65}
+header{background:linear-gradient(125deg,#105744,#2b9a76);color:white;text-align:center;padding:28px 16px}
+header h1{margin:0;font-size:clamp(1.45rem,4vw,2.2rem)}header p{margin:5px 0 0}
+main{max-width:1050px;margin:22px auto;padding:0 14px 40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin:15px 0;box-shadow:0 5px 18px #18372f0a}
+h2{margin:0 0 12px;color:var(--green);font-size:1.25rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.tile{background:var(--pale);border-radius:12px;padding:12px}
+.math{font-family:Georgia,serif;font-size:clamp(1.1rem,3vw,1.6rem);text-align:center;background:#f0faf5;border:1px dashed #9acdb8;border-radius:12px;padding:14px;margin:12px 0;overflow-wrap:anywhere}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+label{display:block;font-weight:bold}input[type=range]{width:100%;accent-color:var(--green)}
+output{color:var(--green);font-weight:bold}
+canvas{width:100%;height:320px;display:block;border:1px solid var(--line);border-radius:12px;background:#fff}
+button{border:0;border-radius:9px;background:var(--green);color:white;padding:10px 16px;font-size:1rem;cursor:pointer;margin:5px 5px 5px 0}
+button:hover{background:#104c3d}.light{background:var(--pale);color:var(--green);border:1px solid #b9ddcd}
+.step{background:#f8fbf9;border-left:4px solid var(--gold);padding:10px 13px;border-radius:8px;margin:9px 0}
+.small{color:var(--muted);font-size:.92rem}.question{border-top:1px solid var(--line);padding:13px 0}
+.question p{font-weight:bold;margin:0 0 8px}.question label{font-weight:normal;padding:4px}
+.feedback{font-weight:bold;margin-top:6px}.solution{display:none;background:var(--pale);border-radius:10px;padding:12px;margin-top:12px}
+.pill{display:inline-block;background:#fff0d5;color:#82520b;padding:3px 9px;border-radius:30px;font-size:.85rem}
+@media(max-width:600px){.card{padding:15px}canvas{height:260px}}
+</style>
+</head>
+<body>
+<header>
+<h1>การแยกตัวประกอบพหุนามดีกรีมากกว่า 2</h1>
+<p>สื่อการเรียนรู้แบบโต้ตอบ • คณิตศาสตร์ ชั้นมัธยมศึกษาปีที่ 4</p>
+</header>
+<main>
+<section class="card">
+<h2>🎯 จุดประสงค์การเรียนรู้</h2>
+<div class="grid">
+<div class="tile"><b>ทดลอง</b><br>ปรับค่ารากของพหุนามและสำรวจรูปกราฟ</div>
+<div class="tile"><b>สังเกต</b><br>สังเกตความสัมพันธ์ระหว่างตัวประกอบกับจุดตัดแกน x</div>
+<div class="tile"><b>วิเคราะห์</b><br>เลือกวิธีแยกตัวประกอบให้เหมาะกับรูปแบบพหุนาม</div>
+</div>
+</section>
+
+<section class="card">
+<h2>1. สำรวจพหุนามดีกรีสาม</h2>
+<p>พิจารณาพหุนามที่สร้างจากตัวประกอบสามวงเล็บ</p>
+<div class="math">P(x) = (x − a)(x − b)(x − c)</div>
+<p>เลื่อนตัวปรับค่า a, b และ c แล้วสังเกตว่าพหุนามและกราฟเปลี่ยนไปอย่างไร</p>
+<div class="controls">
+<div><label for="a">ค่า a = <output id="av">−2</output></label><input id="a" type="range" min="-4" max="4" value="-2" step="1"></div>
+<div><label for="b">ค่า b = <output id="bv">1</output></label><input id="b" type="range" min="-4" max="4" value="1" step="1"></div>
+<div><label for="c">ค่า c = <output id="cv">3</output></label><input id="c" type="range" min="-4" max="4" value="3" step="1"></div>
+</div>
+<div class="math" id="factor">(x + 2)(x − 1)(x − 3)</div>
+<div class="math" id="expanded">P(x) = x³ − 2x² − 5x + 6</div>
+<div class="tile" id="rootinfo">รากของพหุนาม: x = −2, 1, 3</div>
+<p class="small">แนวคิดสำคัญ: เมื่อแทน x ด้วย a, b หรือ c จะทำให้ตัวประกอบวงเล็บหนึ่งเป็นศูนย์ ดังนั้น P(x) = 0</p>
+</section>
+
+<section class="card">
+<h2>2. กราฟเปลี่ยนแปลงแบบเรียลไทม์</h2>
+<p>กราฟด้านล่างจะปรับตามค่าที่เลื่อน จุดสีส้มแสดงตำแหน่งที่กราฟตัดแกน x</p>
+<div><span class="pill">เส้นกราฟ: P(x)</span> <span class="pill">จุดสีส้ม: รากของสมการ</span></div>
+<canvas id="graph" width="950" height="380"></canvas>
+<p class="small">ลองตั้งค่า a, b หรือ c ให้เท่ากัน แล้วสังเกตการสัมผัสหรือการตัดแกน x ของกราฟ</p>
+</section>
+
+<section class="card">
+<h2>3. เรียนรู้วิธีแยกตัวประกอบด้วยการจัดกลุ่ม</h2>
+<p>ตัวอย่าง: แยกตัวประกอบ <b>x³ + 2x² + 3x + 6</b></p>
+<div class="step"><b>ขั้นที่ 1 จัดกลุ่มพจน์</b><br>(x³ + 2x²) + (3x + 6)</div>
+<div class="step"><b>ขั้นที่ 2 ดึงตัวประกอบร่วมของแต่ละกลุ่ม</b><br>x²(x + 2) + 3(x + 2)</div>
+<div class="step"><b>ขั้นที่ 3 ดึง (x + 2) เป็นตัวประกอบร่วม</b><br><b>(x + 2)(x² + 3)</b></div>
+<div class="math">x³ + 2x² + 3x + 6 = (x + 2)(x² + 3)</div>
+<p class="small">สังเกตว่าแต่ละกลุ่มมีตัวประกอบร่วมเป็น (x + 2) จึงสามารถดึงออกมาเป็นตัวประกอบร่วมได้</p>
+</section>
+
+<section class="card">
+<h2>4. ทดลองเลือกวิธีให้เหมาะกับโจทย์</h2>
+<p><b>โจทย์:</b> x³ − 4x</p>
+<p>เลือกวิธีที่เหมาะสมก่อนดูเฉลย</p>
+<div class="grid">
+<div class="tile"><label><input type="radio" name="method" value="a"> การดึงตัวประกอบร่วม</label></div>
+<div class="tile"><label><input type="radio" name="method" value="b"> การจัดกลุ่ม 4 พจน์</label></div>
+<div class="tile"><label><input type="radio" name="method" value="c"> การใช้สูตรผลต่างกำลังสองร่วมกับตัวประกอบร่วม</label></div>
+</div>
+<button class="light" onclick="checkMethod()">ตรวจคำตอบ</button>
+<div id="methodFeedback" class="feedback" aria-live="polite"></div>
+</section>
+
+<section class="card">
+<h2>5. คำถามท้ายกิจกรรม (3 ข้อ)</h2>
+<p class="small">เลือกคำตอบให้ครบ แล้วกดตรวจคำตอบเพื่อดูคะแนนและเฉลย</p>
+<div class="question">
+<p>ข้อ 1. ข้อใดเป็นการแยกตัวประกอบของ x³ + 3x² + 2x</p>
+<label><input type="radio" name="q1" value="a"> x(x + 1)(x + 2)</label><br>
+<label><input type="radio" name="q1" value="b"> x(x − 1)(x − 2)</label><br>
+<label><input type="radio" name="q1" value="c"> (x + 1)(x + 2)</label>
+<div class="feedback" id="f1"></div>
+</div>
+<div class="question">
+<p>ข้อ 2. การแยกตัวประกอบ x³ − 9x ควรเริ่มจากวิธีใด</p>
+<label><input type="radio" name="q2" value="a"> ดึง x เป็นตัวประกอบร่วม</label><br>
+<label><input type="radio" name="q2" value="b"> ใช้สูตรกำลังสามสมบูรณ์</label><br>
+<label><input type="radio" name="q2" value="c"> บวก 9 เข้าไปทั้งสองข้าง</label>
+<div class="feedback" id="f2"></div>
+</div>
+<div class="question">
+<p>ข้อ 3. ข้อใดคือผลการแยกตัวประกอบของ x³ + 2x² + 3x + 6 ด้วยการจัดกลุ่ม</p>
+<label><input type="radio" name="q3" value="a"> (x + 2)(x² + 3)</label><br>
+<label><input type="radio" name="q3" value="b"> (x − 2)(x² + 3)</label><br>
+<label><input type="radio" name="q3" value="c"> (x + 3)(x² + 2)</label>
+<div class="feedback" id="f3"></div>
+</div>
+<button onclick="grade()">ตรวจคำตอบ</button>
+<button class="light" onclick="showSolutions()">แสดงเฉลยทั้งหมด</button>
+<div id="score" class="feedback" aria-live="polite"></div>
+<div id="solutions" class="solution">
+<b>เฉลยพร้อมวิธีคิด</b><br>
+1) ก. x(x + 1)(x + 2) เพราะดึง x ออกก่อน จะได้ x(x² + 3x + 2) และ x² + 3x + 2 = (x + 1)(x + 2)<br>
+2) ก. ดึง x เป็นตัวประกอบร่วม: x³ − 9x = x(x² − 9) = x(x − 3)(x + 3)<br>
+3) ก. จัดกลุ่ม: x²(x + 2) + 3(x + 2) = (x + 2)(x² + 3)
+</div>
+</section>
+<footer class="small" style="text-align:center">สื่อประกอบการเรียนรู้คณิตศาสตร์ ม.4 • ใช้งานแบบออฟไลน์ได้</footer>
+</main>
+<script>
+const ids=['a','b','c'], canvas=document.getElementById('graph'),ctx=canvas.getContext('2d');
+function signedFactor(v){return v>=0?`(x − ${v})`:`(x + ${Math.abs(v)})`}
+function poly(a,b,c){
+ const s=a+b+c, q=a*b+a*c+b*c, r=a*b*c;
+ return {A:s,B:q,C:r};
+}
+function update(){
+ const [a,b,c]=ids.map(id=>Number(document.getElementById(id).value));
+ ids.forEach((id,i)=>document.getElementById(id+'v').textContent=[a,b,c][i]);
+ document.getElementById('factor').textContent=[a,b,c].map(signedFactor).join('');
+ const k=poly(a,b,c);
+ const term=(coef,pow)=>{if(coef===0)return '';let sign=coef<0?' − ':' + ',v=Math.abs(coef),body=pow===2?'x²':pow===1?'x':'';return sign+(v===1&&pow>0?'':v)+body};
+ let exp='P(x) = x³'+term(-k.A,2)+term(k.B,1)+term(-k.C,0);
+ // coefficients: (x-a)(x-b)(x-c)=x3 -(a+b+c)x2 +(ab+ac+bc)x -abc
+ document.getElementById('expanded').textContent=exp;
+ document.getElementById('rootinfo').textContent=`รากของพหุนาม: x = ${a}, ${b}, ${c}`;
+ draw(a,b,c);
+}
+function draw(a,b,c){
+ const W=canvas.width,H=canvas.height,xmin=-6,xmax=6,ymin=-100,ymax=100;
+ const X=x=>(x-xmin)/(xmax-xmin)*W,Y=y=>H-(y-ymin)/(ymax-ymin)*H;
+ ctx.clearRect(0,0,W,H);ctx.font='13px Tahoma';
+ ctx.strokeStyle='#e7efea';ctx.lineWidth=1;
+ for(let x=-6;x<=6;x++){ctx.beginPath();ctx.moveTo(X(x),0);ctx.lineTo(X(x),H);ctx.stroke();}
+ for(let y=-100;y<=100;y+=20){ctx.beginPath();ctx.moveTo(0,Y(y));ctx.lineTo(W,Y(y));ctx.stroke();}
+ ctx.strokeStyle='#607c72';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(W,Y(0));ctx.moveTo(X(0),0);ctx.lineTo(X(0),H);ctx.stroke();
+ ctx.fillStyle='#607c72';ctx.fillText('x',W-18,Y(0)-8);ctx.fillText('y',X(0)+8,15);
+ ctx.strokeStyle='#1685d1';ctx.lineWidth=3;ctx.beginPath();let drawing=false;
+ for(let px=0;px<=W;px++){let x=xmin+px/W*(xmax-xmin),y=(x-a)*(x-b)*(x-c);if(y<ymin-10||y>ymax+10){drawing=false;continue;}if(!drawing){ctx.moveTo(px,Y(y));drawing=true;}else ctx.lineTo(px,Y(y));}ctx.stroke();
+ ctx.fillStyle='#e6a332';[a,b,c].forEach(root=>{ctx.beginPath();ctx.arc(X(root),Y(0),6,0,Math.PI*2);ctx.fill();});
+}
+ids.forEach(id=>document.getElementById(id).addEventListener('input',update));
+function checkMethod(){const v=document.querySelector('input[name="method"]:checked');const out=document.getElementById('methodFeedback');out.textContent=!v?'กรุณาเลือกวิธีก่อน':v.value==='c'?'ถูกต้อง! ดึง x ออกก่อน แล้วใช้ผลต่างกำลังสอง: x(x² − 4) = x(x − 2)(x + 2)':'ลองอีกครั้ง: สังเกตว่ามี x เป็นตัวประกอบร่วม และ x² − 4 เป็นผลต่างกำลังสอง';}
+const key={q1:'a',q2:'a',q3:'a'};
+const explain={q1:'ถูกต้อง: x(x² + 3x + 2) = x(x + 1)(x + 2)',q2:'ถูกต้อง: x³ − 9x = x(x² − 9) = x(x − 3)(x + 3)',q3:'ถูกต้อง: จัดกลุ่มแล้วดึง (x + 2) เป็นตัวประกอบร่วม'};
+function grade(){let score=0;Object.keys(key).forEach(q=>{let v=document.querySelector(`input[name="${q}"]:checked`),f=document.getElementById('f'+q.slice(1));if(!v){f.textContent='กรุณาเลือกคำตอบ';f.style.color='#9a650d';}else if(v.value===key[q]){score++;f.textContent=explain[q];f.style.color='#176b55';}else{f.textContent='ยังไม่ถูกต้อง ลองทบทวนเฉลยด้านล่าง';f.style.color='#b34444';}});document.getElementById('score').textContent=`คะแนน ${score}/3 คะแนน`;}
+function showSolutions(){document.getElementById('solutions').style.display='block';}
+update();
+</script>
+</body>
+</html>
